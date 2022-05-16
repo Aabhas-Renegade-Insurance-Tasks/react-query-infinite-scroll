@@ -615,9 +615,10 @@ export default function handler(req, res) {
   if (req.query.cursor != undefined) {
     const temp = [...posts];
     const data = temp.splice(req.query.cursor, 3);
-    return res
-      .status(200)
-      .json({ data, nextCursor: parseInt(req.query.cursor) + 3 });
+    const nextCursor =
+      parseInt(req.query.cursor) < 97 ? parseInt(req.query.cursor) + 3 : null;
+
+    return res.status(200).json({ data, nextCursor });
   }
 
   return res.status(200).json(posts);
